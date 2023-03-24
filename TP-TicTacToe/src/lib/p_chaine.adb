@@ -40,4 +40,15 @@ package body P_Chaine is
     begin
         Put_Line (chaine.Ch (1 .. chaine.Lg));
     end Put_Line;
+
+    function Char_To_Integer (s : Character) return Integer is
+    begin
+        if s = '1' then
+            return 1;
+        elsif s = '2' then
+            return 2;
+        else
+            return 3;
+        end if;
+    end Char_To_Integer;
 end P_Chaine;
