@@ -51,20 +51,23 @@ begin
                         end loop;
                         Put ("Connexion" & idcli'Image (pos) & ". ");
                         Flush;
-                        Accept_Socket (socket, clisock, addr);
+                        if pos < 3 then
+                            Accept_Socket (socket, clisock, addr);
+                        end if;
                         declare
-                            login : constant String := Recv (clisock);
+                            login : String := "x";
                         begin
-                            if login (login'Last) /= ASCII.LF then
-                                Put_Line
-                                   (Current_Error, "Login incorrect :-(");
+                            if pos = 1 then
+                                login := "X";
                             else
-                                Put_Line
-                                   ("Hello " & login (1 .. login'Last - 1));
-                                Client (pos) := (True,
-                                    new String'(login (1 .. login'Last - 1)),
-                                    clisock);
+                                login := "O";
                             end if;
+                            Put_Line
+                                ("You will be player " & login);
+                            Client (pos) := (True,
+                                new String'(login (1 .. login'Last - 1)),
+                                clisock);
+                            Send (Client (pos).socket, login, Last);
                         end;
                     end;
                 end if;
