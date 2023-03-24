@@ -8,6 +8,7 @@ package P_Chaine is
     procedure Set_Chaine (chaine : in out T_Chaine; ch : String);
     procedure Get_Line (chaine : out T_Chaine);
     procedure Put_Line (chaine : T_Chaine);
+    function Char_To_Integer (s : Character) return Integer;
 
 private
     type T_Chaine (Max : Positive) is record
