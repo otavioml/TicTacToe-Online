@@ -102,13 +102,12 @@ begin
                                     " bytes.");
                                 for J in idcli loop
                                     --  if I /= J and then Client (J).Connected
-                                    if Client (J).Connected then
+                                    if Client (J).Connected and J /= I then
                                         Put ("Sending to" & idcli'Image (J) &
                                             ". ");
                                         Flush;
                                         Send
-                                           (Client (J).socket,
-                                            Client (I).login.all & ": " & msg,
+                                           (Client (J).socket, msg,
                                             Last);
                                     end if;
                                 end loop;
