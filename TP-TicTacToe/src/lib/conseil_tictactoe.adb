@@ -1,4 +1,4 @@
-with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Text_IO;   use Ada.Text_IO;
 
 package body Conseil_TicTacToe is
 
@@ -18,9 +18,42 @@ package body Conseil_TicTacToe is
     end Log_Conseil;
 
     procedure Put_Piece (conseil : in out T_Conseil;
-    x : Integer; y : Integer; piece : Character) is
+    move : T_Chaine; piece : Character) is
+        move_string : constant String := To_String (move);
+        pos_x       : constant Integer := Char_To_Integer (move_string (1));
+        pos_y       : constant Integer := Char_To_Integer (move_string (3));
     begin
-        conseil (x, y) := piece;
+        conseil (pos_x, pos_y) := piece;
     end Put_Piece;
+
+    function Verify_Win (conseil : T_Conseil) return Boolean is
+        Result : Boolean := False;
+    begin
+        for I in 1 .. 3 loop
+            if conseil (I, 1) = conseil (I, 2) and
+            conseil (I, 2) = conseil (I, 3) and
+            conseil (I, 1) /= ' '
+            then
+                Result := True;
+            elsif conseil (1, I) = conseil (2, I) and
+            conseil (2, I) = conseil (3, I) and
+            conseil (1, I) /= ' '
+            then
+                Result := True;
+            end if;
+        end loop;
+        if conseil (1, 1) = conseil (2, 2) and
+        conseil (2, 2) = conseil (3, 3) and
+        conseil (1, 1) /= ' '
+        then
+            Result := True;
+        elsif conseil (1, 3) = conseil (2, 2) and
+        conseil (2, 2) = conseil (3, 1) and
+        conseil (1, 3) /= ' '
+        then
+            Result := True;
+        end if;
+        return Result;
+    end Verify_Win;
 
 end Conseil_TicTacToe;
