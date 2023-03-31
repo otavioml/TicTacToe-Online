@@ -17,17 +17,24 @@ package body Conseil_TicTacToe is
         end loop;
     end Log_Conseil;
 
-    procedure Put_Piece (conseil : in out T_Conseil;
-    move : T_Chaine; piece : Character) is
+    function Put_Piece (conseil : in out T_Conseil;
+    move : T_Chaine; piece : Character) return Boolean is
         move_string : constant String := To_String (move);
         pos_x       : constant Integer := Char_To_Integer (move_string (1));
         pos_y       : constant Integer := Char_To_Integer (move_string (3));
+        valid_move  : Boolean := True;
     begin
-        conseil (pos_x, pos_y) := piece;
+        if conseil (pos_x, pos_y) = ' ' then
+            conseil (pos_x, pos_y) := piece;
+        else
+            valid_move := False;
+        end if;
+        return valid_move;
     end Put_Piece;
 
     function Verify_Win (conseil : T_Conseil) return Boolean is
-        Result : Boolean := False;
+        Result      : Boolean := False;
+        tie_game    : Boolean := True;
     begin
         for I in 1 .. 3 loop
             if conseil (I, 1) = conseil (I, 2) and
@@ -51,6 +58,16 @@ package body Conseil_TicTacToe is
         conseil (2, 2) = conseil (3, 1) and
         conseil (1, 3) /= ' '
         then
+            Result := True;
+        end if;
+        for I in 1 .. 3 loop
+            for J in 1 .. 3 loop
+                if conseil (I, J) = ' ' then
+                    tie_game := False;
+                end if;
+            end loop;
+        end loop;
+        if tie_game then
             Result := True;
         end if;
         return Result;
