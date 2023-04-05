@@ -6,7 +6,8 @@ with Conseil_TicTacToe;     use Conseil_TicTacToe;
 
 procedure TicTacToe_Client is
     Socket          : Socket_Type;
-    Addr            : Sock_Addr_Type;
+    Addr            : Inet_Addr_Type := Any_Inet_Addr ("193.55.161.1");
+    Serveur_Port    : Port_Type := 7777;
     move_send       : T_Chaine (500);
     player          : Character;
     other_player    : Character;
@@ -18,8 +19,8 @@ procedure TicTacToe_Client is
     valid_move      : Boolean;
 begin
     Create_Socket (Socket, Family_Inet, Socket_Stream);
-    Addr.Addr := Addresses (Get_Host_By_Name ("127.0.0.1"), 1);
-    Addr.Port := Port_Type'Value ("7777");
+    Addr.Addr := Addr;
+    Addr.Port := Serveur_Port;
     --  connexion Tcp
     Connect_Socket (Socket, Addr);
     --  Envoi du pseudo
